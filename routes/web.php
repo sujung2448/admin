@@ -49,7 +49,8 @@ Route::group(['middleware' => ['web','auth']], function () {
 Route::get('users', [UsersController::class, 'users'])->name('users');
 Route::get('/users/{user}', [UsersController::class, 'usersInfo'])->name('users.info');
 Route::post('/users/{user}/update', [UsersController::class, 'usersInfoUpdate'])->name('users.info.update');
-// Route::post('{user}/status', [UsersController::class, 'userStatusUpdate'])->name('user.status.update');
+Route::post('/code/regen', [UsersController::class, 'getNewUserPersonalCode'])->name('user.personal.new');
+
 
 Route::get('credit', [CreditController::class, 'credit'])->name('credit');
 Route::post('credit/confirm', [CreditController::class, 'confirm'])->name('credit.confirm');

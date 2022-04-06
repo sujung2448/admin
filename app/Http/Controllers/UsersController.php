@@ -9,6 +9,7 @@ use App\Models\Debit;
 
 use DB;
 use Hash;
+use Str;
 use Exception;
 
 
@@ -101,15 +102,15 @@ class UsersController extends Controller
     {
         // dd($request->all());
         $validation = $request->validate([
-            'userStatus'=>['required'],
-            'type'=>['required'],
-            'bank'=> ['nullable'],
-            'account'=> ['nullable', 'regex:/^[0-9.·-]+$/'],
-            'accountName'=> ['nullable'],
-            'desc'=> ['nullable'],
+            'userStatus' => ['required'],
+            'type' => ['required'],
+            'bank' => ['nullable'],
+            'account' => ['nullable', 'regex:/^[0-9.·-]+$/'],
+            'accountName' => ['nullable'],
+            'desc' => ['nullable'],
             'password' => ['nullable','min:4'],
-            'name'=> ['required','regex:/^[ㄱ-ㅎ|가-힣|a-z|A-Z|]+$/'], 
-
+            'name' => ['required','regex:/^[ㄱ-ㅎ|가-힣|a-z|A-Z|]+$/'], 
+            'personal_code' => ['nullable', 'min:6', 'max:6', 'regex:/^[0-9|A-Z|]+$/'],
         ]);
         
         $user = User::find($id);
@@ -122,6 +123,8 @@ class UsersController extends Controller
         $user->account = $validation['account'];
         $user->account_name = $validation['accountName'];
         $user->desc = $validation['desc'];
+        $user->personal_code = $validation['personal_code'];
+
 
         if($validation['password']){  //password 강제수정
             $user->password = Hash::make($request->input('password'));
@@ -136,6 +139,30 @@ class UsersController extends Controller
         
 
     }
+
+    /**
+     * 회원정보 본인코드 변경용 코드 반환 axios
+     */
+    public function getNewUserPersonalCode(Request $request)
+    {
+        $newPersonalCode = $this->createPersonalCode();
+
+        return response()->json($newPersonalCode);
+    }
+    /**
+     * 회원별 6자리 개인코드 생성
+     */
+    public function createPersonalCode()
+    {
+        $code = Str::upper(Str::random(6));
+        $check = User::wherePersonalCode($code)->first();
+        if(!$check){
+            return $code;
+        }
+        return $this->createPersonalCode();
+    }
+
+   
 }    
 
     

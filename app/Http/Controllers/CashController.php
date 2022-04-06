@@ -40,7 +40,7 @@ class CashController extends Controller
                 throw new Exception("조정금액이 0입니다. 확인해주세요.");
             }
 
-            $manual = (object)([
+            $manual = (object)([ //오브젝트로 변환 <-> (array)
                 'user_id' => $user->id,
                 'user' => $user,
                 'amount'=> $amount,

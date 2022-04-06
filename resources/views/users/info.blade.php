@@ -51,6 +51,23 @@
                         </div>
                     </div>
                     <div class="form-group row">
+                        <label for="" class="col-sm-4 col-form-label">개인코드</label>
+                        <div class="col-sm-8">
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control text-center" name="personal_code" id="personalCodeInput"
+                                       maxlength="6" value="{{ $user->personal_code }}">
+                                <div class="input-group-append">
+                                    <span class="input-group-text" onclick="regenUserPersonalCode()"><i class="fa-solid fa-rotate"></i></span>
+                                </div>
+                            </div>
+                            @error('personal_code')
+                                <b class="text-danger">{{ $message }}</b>
+                            @enderror
+                        </div>
+                        <small class="text-red text-right">대문자+숫자=6자리 조합</small>
+
+                    </div>
+                    <div class="form-group row">
                         <label for="" class="col-sm-4 col-form-label">잔액</label>
                         <div class="col-sm-8">
                             <input type="text" class="form-control form-control-sm text-right" id="userBalance" value="{{ number_format($user->balance) }}" readonly>
@@ -119,7 +136,9 @@
     </div>
     <div class="col-span-5">
         @include('users.info-credits') 
-        @include('users.info-debits') 
+        @include('users.info-debits')
+        @include('users.info-recommend')
+
         <div class="card">
             <div class="card-body flex">
                 <div class="flex-1 flex justify-center">
@@ -147,10 +166,16 @@
                             <div class="form-group mr-1">
                                 <label for="">지급/회수 할 금액</label>
                                 <input type="text" class="form-control form-control-sm"  name="manualAmount" value="">
+                                @error('manualAmount')
+                                    <b class="text-danger">{{ $message }}</b>
+                                @enderror
                             </div>
                             <div class="form-group mr-1">
                                 <label for="">조정 사유</label>
                                 <input type="text" class="form-control form-control-sm"  name="manualMemo" value="">
+                                @error('manualMemo')
+                                    <b class="text-danger">{{ $message }}</b>
+                                @enderror
                             </div>
                             <div class="align-self-center mt-3">
                                 <span class="btn btn-sm btn-primary" onclick="manualCash('manualCashForm')">조정하기</span>
@@ -160,12 +185,10 @@
                 </div>
             </div>    
         </div>
-    </div>  
+    </div>
 </div>
 @stop            
             
-            
-      
 
 @push('css')
 <style>
@@ -187,8 +210,14 @@
         input:invalid;
     }
 
-   
-
+    .card-collapse-btn {
+        position: absolute;
+        right: 15px;
+        display: inline-block;
+        padding: 5px 10px;
+        top: 5px;
+        cursor: pointer;
+    }
     
 
 </style>
@@ -242,6 +271,31 @@
         }
         updateSwalDefault(options);
     }
+
+    function regenUserPersonalCode(){
+        const options = {
+            'title':'신규 개인코드 생성',
+            'html':`신규코드를 자동생성합니다.<br>
+                    기존코드를 통해 맺어진 추천인관계는 그대로 유지됩니다.`,
+            callback:function(result){
+                if (result.value) {
+                    getNewUserPersonalCode()
+                }
+            }
+        }
+        updateSwalDefault(options);
+    }
+
+    function getNewUserPersonalCode(){
+        axios.post('{{ route('user.personal.new') }}')
+        .then((res)=>{
+            $('#personalCodeInput').val(res.data)
+        }).catch((err) => {
+            toastr.error(err)
+        })
+    }
+
+    
 
 </script>
 @endpush

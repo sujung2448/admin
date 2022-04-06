@@ -25,6 +25,7 @@
     {{-- Base Stylesheets --}}
     @if(!config('adminlte.enabled_laravel_mix'))
         <link rel="stylesheet" href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}">
+        <script src="https://kit.fontawesome.com/028bc43324.js" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="{{ asset('vendor/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
 
         {{-- Configured Stylesheets --}}

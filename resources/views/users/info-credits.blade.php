@@ -62,22 +62,6 @@
 </div>
 
 
-@push('css')
-<style>
-    .card-collapse-btn {
-    position: absolute;
-    right: 15px;
-    display: inline-block;
-    padding: 5px 10px;
-    top: 5px;
-    cursor: pointer;
-}
-</style>
-@endpush
-
-
-
-
 @push('js')
 <script>
     // 카드 보이기,숨기기 기능
