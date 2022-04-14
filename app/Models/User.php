@@ -56,4 +56,30 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Models\PointLog');
     }
+
+    public function recommend()
+    {
+        return $this->belongsTo(User::class, 'recommend_id', 'id');
+    }
+
+    public function underUser()
+    {
+        return $this->hasMany(User::class, 'recommend_id', 'id');
+    }
+
+    public function confirmedCredit()
+    {
+        return $this->hasMany(Credit::class)->where('status',1);
+    }
+
+    public function confirmedDebit()
+    {
+        return $this->hasMany(Debit::class)->where('status',1);
+    }
+
+    // public function unders()
+    // {
+    //     return $this->hasMany(User::class, 'recommend_id', 'id');
+    // }
 }
+

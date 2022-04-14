@@ -15,7 +15,7 @@
                         <div class="flex gap-1">
                             <div class="col-auto">
                                 <input name="id" type="id" class="input-mini form-control-sm border" 
-                                       id="selectbox1" value="{{$id}}" placeholder="#" size=2>
+                                       id="selectbox1" value="{{$id}}" placeholder="#" size=5>
                             </div>
                             <div class="col-auto">
                                 <input name="search" value="{{$search}}" type="search" 

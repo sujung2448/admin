@@ -137,8 +137,7 @@
     <div class="col-span-5">
         @include('users.info-credits') 
         @include('users.info-debits')
-        @include('users.info-recommend')
-
+        
         <div class="card">
             <div class="card-body flex">
                 <div class="flex-1 flex justify-center">
@@ -151,6 +150,7 @@
                 </div>
             </div>
         </div>
+        
         <div class="card">
             <div class="card-header credit-header flex justify-between"  >
                 <div class="flex-1">수동 금액 조정</div>
@@ -167,14 +167,14 @@
                                 <label for="">지급/회수 할 금액</label>
                                 <input type="text" class="form-control form-control-sm"  name="manualAmount" value="">
                                 @error('manualAmount')
-                                    <b class="text-danger">{{ $message }}</b>
+                                <b class="text-danger">{{ $message }}</b>
                                 @enderror
                             </div>
                             <div class="form-group mr-1">
                                 <label for="">조정 사유</label>
                                 <input type="text" class="form-control form-control-sm"  name="manualMemo" value="">
                                 @error('manualMemo')
-                                    <b class="text-danger">{{ $message }}</b>
+                                <b class="text-danger">{{ $message }}</b>
                                 @enderror
                             </div>
                             <div class="align-self-center mt-3">
@@ -185,10 +185,13 @@
                 </div>
             </div>    
         </div>
+        @include('users.info-recommend')
     </div>
 </div>
 @stop            
             
+            
+      
 
 @push('css')
 <style>
@@ -211,12 +214,12 @@
     }
 
     .card-collapse-btn {
-        position: absolute;
-        right: 15px;
-        display: inline-block;
-        padding: 5px 10px;
-        top: 5px;
-        cursor: pointer;
+    position: absolute;
+    right: 15px;
+    display: inline-block;
+    padding: 5px 10px;
+    top: 5px;
+    cursor: pointer;
     }
     
 

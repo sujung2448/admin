@@ -1,6 +1,6 @@
 <span class="dropdown user-sidemenu">
     <span class="dropdown-toggle cursor-pointer"  data-toggle="dropdown"
-        title="{{$user->name}}" aria-hidden="true">
+        aria-hidden="true"> {{$user->name}}
     </span>
     <div class="dropdown-menu">
         <div class="flex">
@@ -22,6 +22,7 @@
                 </div>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="javascript:openPopup('/users/{{ $user->id }}')">회원정보</a>
+                <a class="dropdown-item" href="javascript:openPopup('/users?&searchRec={{ $user->id }}')">추천내역</a>
                 <a class="dropdown-item" href="javascript:openPopup('/credit?id=&search={{ $user->id }}')">충전내역</a>
                 <a class="dropdown-item" href="javascript:openPopup('/debit?id=&search={{ $user->id }}')">환전내역</a>
             </div>

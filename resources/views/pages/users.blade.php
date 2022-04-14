@@ -1,4 +1,4 @@
-@extends('adminlte::page')
+@extends($popup == 'true' ? 'adminlte::page-popup' : 'adminlte::page')
 
 @section('title', 'AdminLTE')
 
@@ -16,6 +16,10 @@
                             <div class="col-auto">
                                 <input name="search" type="search" value="{{$search}}" 
                                        class="form-control-sm border" id="selectbox" placeholder="회원번호/이름"> 
+                            </div>
+                            <div class="col-auto">
+                                <input name="searchRec" type="search" value="{{$searchRec}}" 
+                                       class="form-control-sm border" id="selectbox" placeholder="추천인ID/코드"> 
                             </div>
                             <div class="col-auto">
                                 <select name="perPage" class="form-control-sm border" aria-label=".form-select-sm example">
@@ -37,6 +41,8 @@
                                 <th>상태</th>
                                 <th>이름</th>
                                 <th>이메일</th>
+                                <th>상위</th>
+                                <th>하위</th>
                                 <th>현재보유금액</th>
                                 <th>총충전금액</th>
                                 <th>총환전금액</th>
@@ -48,8 +54,36 @@
                             <tr class="text-center">
                                 <td>{{$user->id}}</td>
                                 <td>@include('partials.user-status')</td>
-                                <td>{{$user->name}}@include('partials.user-sidemenu')</td>
+                                <td>@include('partials.user-sidemenu', ['user' => $user])</td>
                                 <td>{{$user->email}}</td>
+                                <td class="text-center">
+                                    @if($user->recommend)
+                                    <div class="flex justify-center">
+                                        @include('partials.user-sidemenu', ['user' => $user->recommend])
+                                        <span>
+                                            <a href="/users?popup={{ $popup }}&searchRec={{ $user->recommend->id }}">
+                                                <i class="fas fa-search pl-3"></i>
+                                            </a>
+                                        </span>
+                                    </div>
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($user->underUser->count() > 0)
+                                    <div>
+                                        <span>
+                                            {{ $user->underUser->count() }}명
+                                        </span>
+                                        <span>
+                                            <a href="/users?popup={{ $popup }}&searchRec={{ $user->id }}">
+                                                <i class="fas fa-search"></i>
+                                            </a>
+                                        </span>
+                                    </div>
+                                    @else
+                                        -
+                                    @endif
+                                </td>
                                 <td class=text-right>{{number_format($user->balance) }}</td>
                                 <td class=text-right>{{number_format($user->total_credit)}}</td>
                                 <td class=text-right>{{number_format($user->total_debit)}}</td>
